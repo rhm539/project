@@ -1,0 +1,18 @@
+{% extends 'partials/base.html' %}
+{% block title %}Fund Item Add Page{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3 p-3 bg-white">
+        <h3>Fund ADD Item</h3>
+        <hr>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <a class="btn btn-info btn-sm mt-2 mr-2" href="{% url 'itStock-fund-show' fund.fundNumber%}">Cancel</a>
+            <input class="btn btn-success mt-2 btn-sm mr-2" type="submit" value="Confirm">
+        </form>
+    </div>
+</div>
+{% endblock %}

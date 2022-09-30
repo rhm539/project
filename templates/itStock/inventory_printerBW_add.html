@@ -1,0 +1,31 @@
+{% extends 'partials/base.html' %}
+{% block title %}ADD IN INVENTORY{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h3>{{inventory.productname}} ADD IN INVENTORY</h3>
+  <hr>
+  <form method="POST">
+  {% csrf_token %}
+    {{ form.productname|as_crispy_field}}
+    <div class="container text-uppercase">
+      <div class="row">
+        <div class="col-4">{{ form.department|as_crispy_field}}</div>
+        <div class="col-4">{{ form.unit|as_crispy_field}}</div>
+        <div class="col-4">{{ form.status|as_crispy_field}}</div>
+      </div>
+      <div class="row">
+        <div class="col">{{ form.Brand|as_crispy_field}}</div>
+        <div class="col">{{ form.model|as_crispy_field}}</div>
+        <div class="col">{{ form.macaddress|as_crispy_field}}</div>
+      </div>
+      <div class="row">
+        <div class="col">{{ form.remarks|as_crispy_field}}</div>
+      </div>
+      <div class="row">
+        <div class="col text-end"><a class="btn btn-secondary mt-2" href="{% url 'itStock-inventory' %}">Cancel</a></div>
+        <div class="col"><input class="btn btn-info mt-2" type="submit" value="CONFIRM"></div>
+      </div>
+    </div>
+  </form>
+{% endblock %}

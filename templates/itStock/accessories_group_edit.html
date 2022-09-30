@@ -1,0 +1,84 @@
+{% extends 'partials/base.html' %}
+{% block title %}Accessories Group{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <!--Table-->
+    <div class="container">
+        <div class="row my-4">
+            <div class="col-md-4">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="border bg-white p-3 text-uppercase">
+                    <h4>Add Accessories Group</h4>
+                    <hr>
+                    <form method="POST">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                        <input class="btn btn-success btn-block mt-2 text-uppercase" type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <table class="table bg-white text-uppercase">
+                    <thead class="bg-info">
+                        <tr class="text-white">
+                            <th scope="col">Accessories</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">ID</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for accessoriesGroupData in accessoriesGroupData %}
+                        <tr>
+                            <td>{{ accessoriesGroupData.AccessoriesName }}</td>
+                            <td>{{ accessoriesGroupData.Status }}</td>
+                            <td>{{ accessoriesGroupData.id }}</td>
+                           
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{%endblock%}

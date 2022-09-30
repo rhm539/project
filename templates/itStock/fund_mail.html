@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head> 
+    <meta charset="UTF-8">
+    <title>FUND PDF</title>
+    <style>
+        body{
+            margin: 0;
+            font-family: sans-serif;
+            text-transform: uppercase;
+        }
+        .container{
+            margin: auto;
+            width: 1024px;
+        }
+        header{
+            text-align: center;
+            width: 90%;
+        }
+        section{
+            width: 90%;
+        }
+        footer{
+            width: 90%;   
+        }
+        td, th {
+            text-align: Center;
+            font-size: 13px; 
+            padding: 5px 0px 5px 0px;
+        
+        }
+        table{
+            width: 100%; 
+            margin: 5 auto;
+            border: 1px solid black;
+
+        }
+
+
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <header>
+            <div> 
+                {% if fund.unit == 'BRL' %}
+                <h1>Billah Resources Ltd.</h1>
+                <h5>17/1, Khataldia, Squib Road , Nishad Nagar, Tongi, Gazipur.</h5>
+                <h2>BRL Requisition</h2>
+
+                {% else %}  
+                <h1>Fashion Step Ltd</h1>
+                <h5>16/3 Shataish Tilargati Road, Shataish, Tongi, Gazipur</h5>
+                <h2>Fund Requisition</h2>
+                {% endif%}                
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <th >UNIT :</th>
+                        <td >{{ fund.unit }}</td>
+                        <th >FUND NO. :</th>
+                        <td ><a class="btn btn-success btn-sm mr-2" target="_blank" href="http://118.179.84.65:8000/itStockfund/pdf/{{fund.fundNumber}}">{{ fund.fundNumber }}</a></td>
+                        <th >DATE :</th>
+                        <td >{{ fund.date }}</td>
+                        <th >STATUS :</th>
+                        <td >{{ fund.status }}</td>
+                    </tr>
+                </table>
+            </div>
+        </header>
+<!----------------------------------------------------!-->
+        <section>
+            <div>
+                <table>
+                    <tr>
+                        <th>NAME :</th>
+                        <td>{{ fund.staff.profile.name }}</td>
+                        <th>Designation :</th>
+                        <td>{{ fund.staff.profile.designation }}</td>
+                        <th>Department :</th>
+                        <td>{{ fund.staff.profile.department }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <table class="dtailHead">
+                        <thead class="dtailHeading">
+                            <tr>
+                              <th>SI No</th>
+                              <th>Particulars</th>
+                              <th>Buyer</th>
+                              <th>Style</th>
+                              <th>Qty</th>
+                              <th>Rate</th>
+                              <th>Amount</th>
+                              <th>Remark</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for funddetail in funddetail %}
+                            <tr>
+                                <th>{{forloop.counter}}</th>
+                                <td>{{ funddetail.particulars }}</td>
+                                <td>{{ funddetail.buyer }}</td>
+                                <td>{{ funddetail.style }}</td>
+                                <td>{{ funddetail.quantity }}</td>
+                                <td style="text-align: right;">{{ funddetail.rate }}</td>
+                                <td style="text-align: right;">{{ funddetail.amount }}</td>
+                                <td>{{ funddetail.remarks }}</td>
+                            </tr>
+                        {% endfor%}
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <th>TOTAL :</th>
+                                <th style="text-align: right;">{{ fund.fundAmount }}</th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <table>
+                        <tr>
+                            <th> In Word :</th>
+                            <th> {{inword}}</th>
+                        </tr>
+                    </table>
+                </div>
+        </section>
+        <footer>
+            <div>
+                <table>
+                    <tr>
+                        <td>_______________</td>
+                        <td>_______________</td>
+                        <td>_______________</td>
+                        <td>_______________</td>
+                        <td>_______________</td>
+                        <td>_______________</td>
+                    </tr>
+                    <tr>
+                      <td>Applicant Signature</td>
+                      <td>Head of Dept.</td>
+                      <td>Admin Dept.</td>
+                      <td>GM (Fin & ACC)</td>
+                      <td>Director</td>
+                      <td>MD / Chairman</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="FundLink">
+                <a class="btn btn-success btn-sm mr-2" target="_blank" href="http://118.179.84.65:8000/itStockfund/pdf/{{fund.fundNumber}}">Fund View : {{ fund.fundNumber }}</a>
+            </div>
+        </footer>
+  </body>
+</html>

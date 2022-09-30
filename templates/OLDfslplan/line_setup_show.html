@@ -1,0 +1,48 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %}Invoice Edit Page{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+{%include 'partials/searchBar.html'%}
+<script src="{% static 'js/jquery.fixedTableHeader.js'%}"></script>
+    <table id="data-table" class="text-capitalize table bg-white table-hover table-striped text-center example tablesearch-table">
+        <thead style="cursor: pointer" class="bg-info">
+            <tr class="text-white">
+                <th scope="col">No</th>
+                <th scope="col">Day ID</th>
+                <th scope="col">Unit</th>
+                <th scope="col">BuyerName</th>
+                <th scope="col">StyleName</th>
+                <th scope="col">SMV</th>
+                <th scope="col">DayTerget</th>
+                <th scope="col">HourTerget</th>
+                <th scope="col">WorkHour</th>
+                <th scope="col">EstimateDay</th>
+                <th scope="col">RemainingDay</th>
+                <th scope="col">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for SetupDay in SetupDay %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{ SetupDay.DayID }}</td>
+                {% if SetupDay.unit == "BRL" %}<td class="text-danger fw-bold">{% elif SetupDay.unit == "FPL"%}<td class="text-danger fw-bold">{% else %}<td>{% endif %}{{ SetupDay.unit }}</td>
+                <td>{{ SetupDay.StyleName.BuyerName}}</td>
+                <td>{{ SetupDay.StyleName}}</td>
+                <td>{{ SetupDay.StyleName.StyleSMV}}</td>
+                <td>{{ SetupDay.DayTerget}}</td>
+                <td>{{ SetupDay.HourTerget}}</td>
+                <td>{{ SetupDay.WorkHour}}</td>
+                <td>{{ SetupDay.EstimateWorkDay}}</td>
+                <td>{{ SetupDay.remainingWorkDay}}</td>
+                <td>{{ SetupDay.date}}</td>
+        {% endfor%}
+        </tbody>
+    </table>
+<script>
+    jQuery(($) => {
+        $(".example").fixedTableHeader();
+    })
+</script>
+{% endblock %}

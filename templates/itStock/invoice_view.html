@@ -1,0 +1,112 @@
+
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %}Invoice Edit Page{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <tr>
+                        <th scope="col">Supplier Name :</th>
+                        <td>{{ invoice.supplierName }}</td>
+                        <th>Invoice NUMBER :</th>
+                        <td>{{ invoice.invoiceNumber }}</td>
+                        <th>In Unit :</th>
+                        <td>{{ invoice.unit }}</td>
+                        <th>DATE :</th>
+                        <td class="text-right">{{ invoice.date }}</td>
+                        <th>STATUS :</th>
+                        <td>{{ invoice.status }}</td>
+                    </tr>
+                </table>
+            </div>             
+        </div>
+    </div>
+</div>
+<div class="container">
+    {% if invoice.status == 'UNPAID' %}
+    <a class="btn btn-info btn-sm mr-2" href="{% url 'itStock-invoice-add-item' invoice.invoiceNumber%}">Invoice Item ADD</a>
+    {% endif %}
+    <a class="btn btn-success btn-sm mr-2" target="_blank" href="{% url 'itStock-invoice-pdf'%}{{ invoice.pdf }}">PDF</a>
+</div>
+<div class="container">
+    <div class="row my-4">
+        <div class="col-md-12">
+                <table class="table bg-white">
+                    <thead class="bg-LightGray">
+                        <tr class="text-BLACK">
+                            <th scope="col">SI No</th>
+                            <th scope="col">Product Name</th>
+                            <th  class="text-right" scope="col">Warranty</th>
+                            <th  class="text-right" scope="col">MAC Address</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Unit Price</th>
+                            <th  class="text-right" scope="col">Price</th>
+                            {% if invoice.status == 'UNPAID'%}
+                            <th scope="col">Activity</th>
+                            <th scope="col">Activity</th>
+                            {% endif %}
+                            <th scope="col">Fund SL</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for invoicedetail in invoicedetail %}
+                        <tr>
+                            <th>{{forloop.counter}}</th>
+                            <td>{{ invoicedetail.productName }}</td>
+                            <td class="text-right">{{ invoicedetail.warranty }}</td>
+                            <td class="text-right">{{ invoicedetail.macaddress }}</td>
+                            <td>{{ invoicedetail.quantity }}</td>
+                            <td>{{ invoicedetail.unitprice }}</td>
+                            <td class="text-right">{{ invoicedetail.price }}</td>
+                            {% if invoice.status == 'UNPAID' and invoicedetail.addstock is False %}
+                            <td><a class="btn btn-info btn-sm mr-2" href="{% url 'itStock-invoice-item-edit' invoicedetail.id  %}">EDIT</a></td>
+                            <td><a class="btn btn-danger btn-sm mr-2" href="{% url 'itStock-invoice-item-delete' invoicedetail.id %}">DELETE</a></td>
+                            {% elif invoice.status == 'PAID'%}
+                            <!-- test  sss -->
+                            {% else %}
+                            <td></td>
+                            <td></td>
+                            {% endif %}
+                            {% if invoicedetail.fundSerial %}
+                            <td><a target="_blank" href="{% url 'itStock-fund-pdf' invoicedetail.fundSerial %}"> {{ invoicedetail.fundSerial }}</a></td>
+                            {% endif %}     
+                        </tr>
+                    {% endfor%}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <th class="text-right">TOTAL:</th>
+                            <th class="text-right">{{ invoice.totalAmount }}</th>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="col-12 table bg-white">
+                    <thead class="bg-LightGray">
+                        <tr class="text-BLACK">
+                            <th class="col-2">IN WORD:</th>
+                            <th class="col-10 text-uppercase text-left">{{inword}}</th>
+                        <tr>
+                    </thead>
+                </table>
+        </div>
+    </div>
+    <footer>
+        <div>
+            <a class="btn btn-info btn-sm mr-2" href="{% url 'itStock-invoice-list' %}">Invoice List</a>
+            <a class="btn btn-info btn-sm mr-2" href="#">TOP</a>
+        </div>   
+    </footer>
+</div> 
+{% endblock %}

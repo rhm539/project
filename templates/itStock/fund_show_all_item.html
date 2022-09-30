@@ -1,0 +1,61 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %}Fund Show All Item{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+{%include 'partials/searchBar.html'%}
+<script src="{% static 'js/jquery.fixedTableHeader.js'%}"></script>
+<table id="data-table" class="text-capitalize table bg-white table-hover table-striped text-center example tablesearch-table">
+                    <thead style="cursor: pointer" class="bg-info">
+                        <tr class="text-white">
+                            <th scope="col">No</th>
+                            <th scope="col">Particulars</th>
+                            <th scope="col">Unit</th>
+                            <th scope="col">Buyer</th>
+                            <th scope="col">Style</th>
+                            <th scope="col">Q.</th>
+                            <th scope="col">Rate</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Remark</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Fund</th>
+                            <th scope="col">INVOICE</th>
+                     </tr>
+                    </thead>
+                    <tbody>
+                    {% for funddetail in funddetail %}
+                        <tr class="fs-6">
+                            <td>{{forloop.counter}}</td>
+                            <td>{{ funddetail.particulars }}</td>
+                            {% if funddetail.unit == "BRL" %}<td class="text-danger fw-bold">{% else %}<td>{% endif %}{{ funddetail.unit }}</td>
+                            <td>{{ funddetail.buyer }}</td>
+                            <td>{{ funddetail.style }}</td>
+                            <td>{{ funddetail.quantity }}</td>
+                            <td class="text-right">{{ funddetail.rate }}</td>
+                            <td class="text-right">{{ funddetail.amount }}</td>
+                            <td>{{ funddetail.remarks }}</td>
+                            <td class="text-nowrap">{{ funddetail.date }}</td>
+                            <td class="text-nowrap"><a target="_blank" href="{% url 'itStock-fund-pdf' funddetail.fundSerial%}"> {{ funddetail.fundSerial }}</a></td>
+                            {% if not funddetail.invoiceNumber%}<td><a class="btn bg-primary btn-sm text-white" href="{% url 'itStock-fund-item-add-inv' funddetail.id %}">A Inv</a></td>{% else %}
+                            <td><a class="btn btn-warning btn-sm text-white" target="_blank" href="{% url 'itStock-invoice-view' funddetail.invoiceNumber %}">E</a>
+                                <a class="btn btn-success btn-sm" target="_blank" href="{% url 'itStock-invoice-pdf'%}{{ funddetail.invoiceNumber.pdf }}">P</a></td>
+                        {% endif %}
+                        </tr>
+                    {% endfor%}
+                    </tbody>
+                </table>
+<script>
+    jQuery(($) => {
+        $(".example").fixedTableHeader();
+    })
+</script>
+
+
+
+
+
+
+
+
+
+{% endblock %}

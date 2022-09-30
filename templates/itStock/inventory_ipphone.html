@@ -1,0 +1,57 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %}Fund Show All Item{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+{%include 'partials/searchBar.html'%}
+<script src="{% static 'js/jquery.fixedTableHeader.js'%}"></script>
+<table id="data-table" class="text-capitalize table bg-white table-hover table-striped text-center example tablesearch-table">
+                    <thead style="cursor: pointer" class="bg-info">
+                        <tr class="text-white">
+                            <th scope="col">No</th>
+                            <th scope="col">Inv</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Unit</th>
+                            <th scope="col">Brand</th>
+                            <th scope="col">Extension Number</th>
+                            <th scope="col">Macaddress</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Remarks</th>
+                            <th scope="col"></th>
+                            
+                     </tr>
+                    </thead>
+                    <tbody>
+                    {% for InventoryPCdata in InventoryPCdata %}
+                        <tr class="fs-6">
+                            <td>{{forloop.counter}}</td>
+                            <td>{{ InventoryPCdata.inventoryNumber}}</td>
+                            <td>{{ InventoryPCdata.department }}</td>
+                            <td>{{ InventoryPCdata.unit }}</td>
+                            <td>{{ InventoryPCdata.Brand }}</td>
+                            <td>{{ InventoryPCdata.ExtensionNumber }}</td>
+                            <td>{{ InventoryPCdata.macaddress }}</td>
+                            <td>{{ InventoryPCdata.status }}</td>
+                            <td>{{ InventoryPCdata.date }}</td>
+                            <td>{{ InventoryPCdata.remarks }}</td>
+                            <td><a class="btn btn-info btn-sm float-right" href="{% url 'itStock-inventory-ipphone-edit' InventoryPCdata.id%}">Edit</a></td>
+                        </tr>
+                    {% endfor%}
+                    </tbody>
+                </table>
+<script>
+    jQuery(($) => {
+        $(".example").fixedTableHeader();
+    })
+</script>
+
+
+
+
+
+
+
+
+
+{% endblock %}

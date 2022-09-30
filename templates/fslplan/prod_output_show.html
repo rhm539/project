@@ -1,0 +1,77 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %}Invoice Edit Page{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+{%include 'partials/searchBar.html'%}
+<script src="{% static 'js/jquery.fixedTableHeader.js'%}"></script>
+
+    <table id="data-table" class="text-capitalize table bg-white table-hover table-striped text-center example tablesearch-table">
+        <thead style="cursor: pointer" class="bg-info">
+            <tr class="text-white">
+                <th scope="col">No</th>
+                <th scope="col">LineNum</th>
+                <th scope="col">StyleName</th>
+                <th scope="col">MP</th>
+                <th scope="col">Date</th>
+                <th scope="col">HT</th>
+                <th scope="col">DayTT</th>
+                <th scope="col">LINEWIP</th>
+                <th scope="col">H_8_9</th>
+                <th scope="col">H_9_10</th>
+                <th scope="col">H_10_11</th>
+                <th scope="col">H_11_12</th>
+                <th scope="col">H_12_13</th>
+                <th scope="col">H_14_15</th>
+                <th scope="col">H_15_16</th>
+                <th scope="col">H_16_17</th>
+                <th scope="col">H_17_18</th>
+                <th scope="col">H_18_19</th>
+                <th scope="col">H_19_20</th>
+                <th scope="col">H_20_21</th>
+                <th scope="col">H_21_22</th>
+
+            </tr>
+        </thead>
+        <tbody>
+    {% for SetupLineData in SetupLineData %}
+            <tr>
+                <td scope="row">{{forloop.counter}}</td>
+                {% if SetupLineData.DataLock == "N" %}
+                    <td><a class="btn btn-outline-success" href="{% url 'fslplan-prod-output-edit' SetupLineData.id %}">{{ SetupLineData.LineNum }}</a></td>
+                {% else %}
+                    <td><a class="btn btn-outline-success" href="#">{{ SetupLineData.LineNum }}</a></td>
+                {% endif %}
+
+
+                <td>{{ SetupLineData.style }}</td>
+                <td>{{ SetupLineData.Manpower }}</td>
+                <td class="text-nowrap">{{ SetupLineData.date }}</td>
+                <td >{{ SetupLineData.HourTerget }}</td>
+                <td class="bg-info text-white fw-bold">{{ SetupLineData.DayTT }}</td>
+                <td>{{ SetupLineData.LineWIP }}</td>
+                <td class="bg-primary text-white">{{ SetupLineData.H_8_9 }}</td>
+                <td class="bg-primary text-white">{{ SetupLineData.H_9_10 }}</td>
+                <td class="bg-primary text-white">{{ SetupLineData.H_10_11 }}</td>
+                <td class="bg-primary text-white">{{ SetupLineData.H_11_12 }}</td>
+                <td class="bg-primary text-white">{{ SetupLineData.H_12_13 }}</td>
+                
+                <td class="bg-secondary text-white">{{ SetupLineData.H_14_15 }}</td>
+                <td class="bg-secondary text-white">{{ SetupLineData.H_15_16 }}</td>
+                <td class="bg-secondary text-white">{{ SetupLineData.H_16_17 }}</td>
+                <td class="bg-secondary text-white">{{ SetupLineData.H_17_18 }}</td>
+                <td class="bg-secondary text-white">{{ SetupLineData.H_18_19 }}</td>
+                <td class="bg-info text-danger">{{ SetupLineData.H_19_20 }}</td>
+                <td class="bg-info text-danger">{{ SetupLineData.H_20_21 }}</td>
+                <td class="bg-info text-danger">{{ SetupLineData.H_21_22 }}</td>
+
+            </tr>
+    {% endfor%}
+        </tbody>
+    </table>
+<script>
+    jQuery(($) => {
+        $(".example").fixedTableHeader();
+    })
+</script>
+{% endblock %}

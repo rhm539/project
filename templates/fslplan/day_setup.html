@@ -1,0 +1,90 @@
+{% extends 'partials/base.html' %}
+{% block title %}DAY Setup Page{% endblock %}
+{% block content %}
+{% load widget_tweaks %}
+    {% load crispy_forms_tags %}
+            <form method="POST"   id="personForm" data-styles-url="{% url 'ajax_load_style' %}" >
+                <div class="row my-2">
+                     {% csrf_token %}
+                    <table class="table bg-white table-hover table-striped text-center text-nowrap container-lg">
+                        <thead>
+                            <tr class="text-white bg-info">
+                                <th>Unit</th>
+                                <th>BuyerName</th>
+                                <th>StyleName</th>
+                                <th>DayTerget</th>
+                                <th>WorkHour</th>
+                                <th>EstimateWorkDay</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr> 
+                                <td>{{ form.unit}}</td>
+                                <td>{{ form.buyer}}</td>
+                                <td>{{ form.style}}</td>
+                                <td>{{ form.DayTerget}}</td>
+                                <td>{{ form.WorkHour}}</td>
+                                <td>{{ form.EstimateWorkDay}}</td>
+                                <td>{{ form.date}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                 <div class="d-flex justify-content-center">
+                        <a class="btn btn-info btn-sm m-1" href="{% url 'fslplan-index' %}">Cancel</a>
+                        <input class="btn btn-success btn-sm m-1" type="submit" value="Confirm">
+                </div>
+                </div>
+            </form>
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $("#id_buyer").change(function () {
+        const url = $("#personForm").attr("data-styles-url");  // get the url of the `load_cities` view
+        const buyerId = $(this).val();  // get the selected country ID from the HTML input
+
+        $.ajax({                       // initialize an AJAX request
+            url: url,                    // set the url of the request (= /persons/ajax/load-cities/ )
+            data: {
+                'buyer': buyerId       // add the country id to the GET parameters
+            },
+            success: function (data) {   // `data` is the return of the `load_cities` view function
+                $("#id_style").html(data);  // replace the contents of the city input with the data that came from the server
+                /*
+
+                let html_data = '<option value="">---------</option>';
+                data.forEach(function (city) {
+                    html_data += `<option value="${city.id}">${city.name}</option>`
+                });
+                console.log(html_data);
+                $("#id_city").html(html_data);
+
+                */
+            }
+        });
+
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head> 
+    <meta charset="UTF-8">
+    <title>FUND PDF</title>
+    <style>
+        body{
+            margin: 0;
+            font-family: sans-serif;
+            text-transform: uppercase;
+        }
+        .container{
+            margin: auto;
+            width: 1024px;
+        }
+        header{
+            text-align: center;
+            width: 90%;
+        }
+        section{
+            width: 90%;
+        }
+        footer{
+            width: 90%;   
+        }
+        td, th {
+            text-align: Center;
+            font-size: 13px; 
+            padding: 5px 0px 5px 0px;
+        
+        }
+        table{
+            width: 100%; 
+            margin: 5 auto;
+            border: 1px solid black;
+
+        }
+
+
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <header>
+            <div> 
+                {% if  order.staff.profile.officeLocation == 'BRL' %}
+                <h1>Billah Resources Ltd.</h1>
+                <h5>17/1, Khataldia, Squib Road , Nishad Nagar, Tongi, Gazipur.</h5>
+                <h2>BRL IT product Request</h2>
+
+                {% else %}  
+                <h1>Fashion Step Ltd</h1>
+                <h5>16/3 Shataish Tilargati Road, Shataish, Tongi, Gazipur</h5>
+                <h2>IT product Request</h2>
+                {% endif%}                
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <th >UNIT :</th>
+                        <td >{{  order.staff.profile.officeLocation }}</td>
+                        <th >REQUEST NO. :</th>
+                        <td >{{ order.id}}</td>
+                        <th >DATE :</th>
+                        <td >{{ order.date }}</td>
+                        <th >STATUS :</th>
+                        <td >{{ order.OrStatus }}</td>
+                    </tr>
+                </table>
+            </div>
+        </header>
+<!----------------------------------------------------!-->
+        <section>
+            <div>
+                <table>
+                    <tr>
+                        <th>NAME :</th>
+                        <td>{{ order.staff.profile.name }}</td>
+                        <th>ID :</th>
+                        <td>{{ order.staff.profile.officeID }}</td>
+                        <th>Designation :</th>
+                        <td>{{ order.staff.profile.designation }}</td>
+                        <th>Department :</th>
+                        <td>{{ order.staff.profile.department }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <table class="dtailHead">
+                        <thead class="bg-info">
+                            <tr class="text-white">
+                                <th scope="col">Product</th>
+                                <th scope="col">Quantity</th>
+                                <th class="text-nowrap" scope="col">Req. By</th>
+                                <th scope="col">Status</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ order.product.AGroupName}}{{ order.product }}</td>
+                                <td>{{ order.order_quantity }}</td>
+                                <td>{{ order.staff }}</td>
+                                <td>{{ order.OrStatus }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+        </section>
+        <footer>
+            <div>
+                <table>
+                    <tr>
+                        <td>_______________</td>
+                        <td>_______________</td>
+                        <td>_______________</td>
+                        <td>_______________</td>
+                        <td>_______________</td>
+                        <td>_______________</td>
+                    </tr>
+                    <tr>
+                      <td>Applicant Signature</td>
+                      <td>Head of Dept.</td>
+                      <td>Admin Dept.</td>
+                      <td>GM (Fin & ACC)</td>
+                      <td>Director</td>
+                      <td>MD / Chairman</td>
+                    </tr>
+                </table>
+            </div>
+        </footer>
+  </body>
+</html>

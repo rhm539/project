@@ -1,0 +1,85 @@
+{% extends 'partials/base.html' %}
+{% block title %}Profile{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <!--Table-->
+            <div class="mt-2">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        Employee Profile Page
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                            {% if user.profile.officeID  %}
+                                <span class="h4"> Employee Profile Information</span>
+                                <a class="btn btn-info btn-sm float-right" href="{% url 'user-profile-update' %}">Edit</a>
+                            {% else %}
+                                <span class="h4 text-danger"> Please Update Profile</span>
+                                <a class="btn btn-danger btn-sm float-right" href="{% url 'user-profile-update' %}">Edit</a>
+                            {% endif %}
+                                <hr>
+                                <table class="table bg-white table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">User ID</th>
+                                            <td>{{ user.username }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Name</th>
+                                            <td>{{ user.name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Email</th>
+                                            <td>{{ user.email }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Phone</th>
+                                            <td>{{ user.profile.phone }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Employee ID</th>
+                                            <td>{{ user.profile.officeID }}</td>
+                                        </tr>
+                                                                                <tr>
+                                            <th scope="row">Unit</th>
+                                            <td>{{ user.profile.officeLocation }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Department</th>
+                                            <td>{{ user.profile.department }}</td>
+                                        </tr>
+                                        <th scope="row">Designation</th>
+                                            <td>{{ user.profile.designation }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Address</th>
+                                            <td>{{ user.profile.address }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            <div class="col-md-2">
+                                <label>Profile</label>
+                                <img class="img-thumbnail" src="{{ user.profile.image.url }}" alt="profile-image">
+                                
+                            </div>
+                            <div class="col-md-2">
+                                <label>Signature</label>
+                                <img class="img-thumbnail" src="{{ user.profile.signature.url }}" alt="profile-Signature">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!--End Table-->
+{% endblock %}

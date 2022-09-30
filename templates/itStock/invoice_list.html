@@ -1,0 +1,52 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %}Invoice Edit Page{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+{%include 'partials/searchBar.html'%}
+<script src="{% static 'js/jquery.fixedTableHeader.js'%}"></script>
+    <table id="data-table" class="text-capitalize table bg-white table-hover table-striped text-center example tablesearch-table">
+        <thead style="cursor: pointer" class="bg-info">
+            <tr class="text-white">
+                <th scope="col">No</th>
+                <th scope="col">Invoice Number</th>
+                <th scope="col">Supplier Name</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date</th>
+                <th scope="col">Total Amount</th>
+                <th scope="col">PDF</th>
+                <th scope="col">Activity</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for invoice in invoice %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td><a class="fw-bold" href="{% url 'itStock-invoice-edit' invoice.id %}">{{ invoice.invoiceNumber }}</a></td>
+                <td>{{invoice.supplierName}}</td>
+                {% if invoice.unit == "BRL" %}<td class="text-danger fw-bold">{% elif invoice.unit == "FPL"%}<td class="text-danger fw-bold">{% else %}<td>{% endif %}{{ invoice.unit }}</td>
+                {% if invoice.status == "UNPAID" %}<td class="text-danger">{{ invoice.status }}</td>{% else %}<td class="text-success">{{ invoice.status }}</td>{% endif %}
+                <td>{{invoice.date}}</td>
+                <td>{{invoice.totalAmount}}</td>
+            {% if invoice.pdf == 'invoice.pdf' %}
+                <td><a class="btn btn-success btn-sm mr-2 btn-warning" target="_blank" href="{% url 'itStock-invoice-edit' invoice.id %}">N</a></td>
+            {% else %}
+                <td><a class="btn btn-success btn-sm mr-2 " target="_blank" href="{% url 'itStock-invoice-pdf'%}{{ invoice.pdf }}">Y</a></td>
+            {% endif %}
+            {% if invoice.pdf == 'invoice.pdf' %}
+                <td><a class="btn btn-warning btn-sm mr-2" href="{% url 'itStock-invoice-view' invoice.invoiceNumber %}">Detail</a></td>
+            {% else %}
+                <td><a class="btn  btn-info  btn-sm mr-2" href="{% url 'itStock-invoice-view' invoice.invoiceNumber %}">Inv Detail</a></td>
+            {% endif %}
+            </tr>
+            
+        {% endfor%}
+        </tbody>
+    </table>
+<script>
+    jQuery(($) => {
+        $(".example").fixedTableHeader();
+    })
+</script>
+{% endblock %}

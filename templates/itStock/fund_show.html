@@ -1,0 +1,135 @@
+
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %}Fund Edit Page{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+    <div class="text-center">
+        {% if fund.unit == 'BRL' %}
+            <img src ="http://118.179.84.65:8000/static/img/BRL_Banner.jpg" alt="FSL Fund Banner" width=100%>
+        {% else %}
+            <img src ="http://118.179.84.65:8000/static/img/FSL_Banner.jpg" alt="FSL Fund Banner"width=100%>
+        <!-- This is Header Print on Every Page of Pdf -->
+        {% endif%}
+    </div>
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <tr>
+                        <th scope="col">UNIT :</th>
+                        <td>{{ fund.unit }}</td>
+                        <th>FUND NUMBER :</th>
+                        <td>{{ fund.fundNumber }}</td>
+                        <th>DATE :</th>
+                        <td class="text-right">{{ fund.date }}</td>
+                        <th>STATUS :</th>
+                        <td>{{ fund.status }}</td>
+                    </tr>
+                </table>
+            </div>             
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <tr>
+                        <th scope="col">NAME :</th>
+                        <td>{{ fund.staff.profile.name }}</td>
+                        <th>Designation :</th>
+                        <td>{{ fund.staff.profile.designation }}</td>
+                        <th>Department :</th>
+                        <td>{{ fund.staff.profile.department }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+            <a class="btn btn-info btn-sm mr-2" href="{% url 'itStock-fund-add-item' fund.fundNumber %}">Fund Item ADD</a>
+</div>
+<div class="container">
+    <div class="row my-4">
+        <div class="col-md-12">
+                <table class="table bg-white">
+                    <thead class="bg-LightGray">
+                        <tr class="text-BLACK">
+                            <th scope="col">SI No</th>
+                            <th scope="col">Particulars</th>
+                            <th scope="col">Buyer</th>
+                            <th scope="col">Style</th>
+                            <th  class="text-right" scope="col">Quantity</th>
+                            <th  class="text-right" scope="col">Rate</th>
+                            <th  class="text-right" scope="col">Amount</th>
+                            <th scope="col">Remark</th>
+                            <th scope="col">Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for funddetail in funddetail %}
+                        <tr>
+                            <th>{{forloop.counter}}</th>
+                            <td>{{ funddetail.particulars }}</td>
+                            <td>{{ funddetail.buyer }}</td>
+                            <td>{{ funddetail.style }}</td>
+                            <td class="text-right">{{ funddetail.quantity }}</td>
+                            <td class="text-right">{{ funddetail.rate }}</td>
+                            <td class="text-right">{{ funddetail.amount }}</td>
+                            <td>{{ funddetail.remarks }}</td>
+                            <td>                          
+                                <a class="btn btn-info btn-sm mr-2" href="{% url 'itStock-fund-item-edit' funddetail.id %}">EDIT</a>
+                                <a class="btn btn-danger btn-sm mr-2" href="{% url 'itStock-fund-item-delete' funddetail.id %}">DELETE</a></td>
+                        </tr>
+                    {% endfor%}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <th class="text-right" >TOTAL :</th>
+                            <th class="text-right">{{ fund.fundAmount }}</th>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="col-12 table bg-white">
+                    <thead class="bg-LightGray">
+                        <tr class="text-BLACK">
+                            <th class="col-2">IN WORD:</th>
+                            <th class="col-10 text-uppercase text-left">{{inword}}</th>
+                        <tr>
+                    </thead>
+                </table>
+                <table class="table bg-white">
+                    <thead class="bg-LightGray">
+                        <tr class="text-BLACK">
+                            <td><img class="img-thumbnail" src="{{fund.staff.profile.signature.url }}" alt="profile-Signature"></td>
+                            <td><img class="img-thumbnail" src="{{hsignature.signature.url }}" alt="profile-Signature"></td>
+                            <td><img class="img-thumbnail" src="{{auditsig.signature.url }}" alt="profile-Signature"></td>
+                            <td><img class="img-thumbnail" src="{{gmaccsig.signature.url }}" alt="profile-Signature"></td>
+                            <td>_______________</td>
+                            <td><img class="img-thumbnail" src="{{mdsig.signature.url }}" alt="profile-Signature"></td>
+                        <tr>
+                        <tr class="text-BLACK">
+                            <td>Applicant Signature</td>
+                            <td>Head of Dept.</td>
+                            <td>Admin Dept.</td>
+                            <td>GM (Fin & ACC)</td>
+                            <td>Director</td>
+                            <td>MD / Chairman</td>
+                        <tr>
+                    </thead>
+                </table>
+        </div>
+    </div>
+    <footer>
+        <div>
+            <a class="btn btn-info btn-sm mr-2" href="{% url 'itStock-fund' %}">Fund List</a>
+            <a class="btn btn-info btn-sm mr-2" href="#">TOP</a>
+        </div>   
+    </footer>
+</div> 
+{% endblock %}

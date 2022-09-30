@@ -1,0 +1,61 @@
+{% extends 'partials/base.html' %}
+{% block title %}Fund Item Add Page{% endblock %}
+{% block content %}
+   {% load crispy_forms_tags %}
+        <form method="POST">
+            <div class="row mt-2">
+                {% csrf_token %}
+                <table class="table bg-white table-hover table-striped text-center">
+                    <thead class="bg-info">
+                        <tr class="text-white">
+                            <th>Faund Name</th>
+                            <th>Unit Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr> 
+                            <td>{{ form.fundName}}</td>
+                            <td>{{ form.unit}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <table class="form-table table bg-white table-hover table-striped text-center">
+                    <thead class="bg-info">
+                        <tr class="text-white">
+                            <th scope="col">Particulars</th>
+                            <th scope="col">Buyer</th>
+                            <th scope="col">Style</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Rate</th>
+                            <th scope="col">Remarks</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for form_data in formset %}
+                        <tr class="item">
+                            <td scope="col">{{ form_data.particulars }}</td>
+                            <td scope="col">{{ form_data.buyer }}</td>
+                            <td scope="col">{{ form_data.style }}</td>
+                            <td scope="col">{{ form_data.quantity }}</td>
+                            <td scope="col">{{ form_data.rate }}</td>
+                            <td scope="col">{{ form_data.remarks }}</td>
+                            <td scope="col"><button type="button" class="btn btn-danger btn-sm remove-form-row"id="{{ formset.prefix }}">Delete</button></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-sm btn-success add-form-row m-1" id="{{ formset.prefix }}">Add</button>
+                    {{ formset.management_form }}
+                <button class="btn btn-success btn-sm m-1" type="submit">Submit</button>
+            </div>
+        </form>
+{% load static %}
+<script type="text/javascript" src="{% static 'js/formset.js' %}"></script>
+<script src="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>
+{% endblock %}
+

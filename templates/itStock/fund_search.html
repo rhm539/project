@@ -1,0 +1,85 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %}Fund Page{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <!--Table-->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table bg-white">
+                    <thead class="bg-info">
+                        <tr class="text-white">
+                            <th scope="col">Fund Number</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Unit</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Create BY</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fund in page_obj.object_list%}
+                        <tr>
+                            <td><a class="btn btn-info btn-sm mr-2" href="#"> {{ fund.fundNumber }}</a></td>
+                            <td>{{ fund.fundName }}</td>
+                            <td>{{ fund.unit }}</td>
+                            <td>{{ fund.fundAmount }}</td>
+                            <td>{{ fund.date }}</td>
+                            <td>{{ fund.staff }}</td>
+                            <td>{{ fund.status }}</td>
+                            <td>
+                                {% if fund.status == 'NEW' or fund.status == 'SEND' %}
+                                        {% if fund.status == 'SEND' and request.user.profile.utype.utype == 'DptHead' %}
+                                            <a class="btn btn-secondary disabled btn-sm mr-2" href="#">Fixed</a>
+                                            <a class="btn btn-warning btn-sm mr-2" href="{% url 'itStock-fund-submit' fund.fundNumber%}">Submit to Dpt Audit</a>
+                                        {% elif fund.status == 'NEW'%}
+                                            <a class="btn btn-info btn-sm mr-2" href="{% url 'itStock-fund-show' fund.fundNumber%}">EDIT</a>
+                                            <a class="btn btn-warning btn-sm mr-2" href="{% url 'itStock-fund-submit' fund.fundNumber%}">Submit to Dpt Head</a>
+                                        {% endif %}    
+                                {% endif %}
+
+                                {% if fund.status == 'ACCEPT' and request.user.profile.utype.utype == 'Audit'%}
+                                    <a class="btn btn-info btn-sm mr-2" href="{% url 'itStock-fund-show' fund.fundNumber%}">EDIT</a>
+                                    <a class="btn btn-warning btn-sm mr-2" href="{% url 'itStock-fund-submit' fund.fundNumber%}">Submit to Dpt ACC</a>
+                                {% endif %}
+                                {% if fund.status == 'DELIVER' and request.user.profile.utype.utype == 'GMACC' %}
+                                        <a class="btn btn-info btn-sm mr-2" href="{% url 'itStock-fund-show' fund.fundNumber%}">EDIT</a>
+                                    <a class="btn btn-warning btn-sm mr-2" href="{% url 'itStock-fund-submit' fund.fundNumber%}">Submit to MD</a>
+                                {% endif %}
+                                {% if fund.status == 'WAITING' and request.user.profile.utype.utype == 'MD' %}
+                                    <a class="btn btn-info btn-sm mr-2" href="{% url 'itStock-fund-show' fund.fundNumber%}">EDIT</a>
+                                    <a class="btn btn-warning btn-sm mr-2" href="{% url 'itStock-fund-submit' fund.fundNumber%}">APPROVED</a>
+                                {% endif %}
+                                <a class="btn btn-success btn-sm mr-2" target="_blank" href="{% url 'itStock-fund-view' fund.fundNumber%}">VIEW</a>
+                                <a class="btn btn-success btn-sm mr-2" target="_blank" href="{% url 'itStock-fund-pdf' fund.fundNumber%}">PDF</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <center>
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">&laquo; first</a>
+                                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                            {% endif %}
+
+                            <span class="current">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                            </span>
+
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                        </span>
+                </center>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

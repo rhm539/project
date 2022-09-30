@@ -1,0 +1,9 @@
+body{
+    background: rgb(248, 246, 246);
+}
+
+.my-card:hover{
+    transform: scale(1.1);
+    transition: 0.2s ease-in-out;
+}
+/* page */

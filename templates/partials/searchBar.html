@@ -1,0 +1,101 @@
+ {% load static %}
+ <script src="{% static 'js/tableExport.js'%}"></script>
+ <script src="{% static 'js/auto-tables.js'%}"></script>
+  <script>
+  $( function() {
+    var dateFormat = "mm/dd/yy",
+      from = $( "#from" )
+        .datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          numberOfMonths: 1
+        })
+        .on( "change", function() {
+          to.datepicker( "option", "minDate", getDate( this ) );
+        }),
+      to = $( "#to" ).datepicker({
+        defaultDate: "+1w",
+        changeMonth: true,
+        numberOfMonths: 1
+      })
+      .on( "change", function() {
+        from.datepicker( "option", "maxDate", getDate( this ) );
+      });
+ 
+    function getDate( element ) {
+      var date;
+      try {
+        date = $.datepicker.parseDate( dateFormat, element.value );
+      } catch( error ) {
+        date = null;
+      }
+ 
+      return date;
+    }
+  } );
+  </script>
+<!--Start Serch Navbar-->
+<div class="container mt-2 mb-2">
+  <div class="row">
+    <div class="col-auto me-auto">    
+      <div class="btn-group">
+            <button type="button" class="btn btn-outline-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Export to</button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a class="dropdown-item" onclick="exportAll('csv');" href="javascript://">CSV</a></li>
+              <li><a class="dropdown-item" onclick="exportAll('txt');" href="javascript://">TXT</a></li>
+              <li><a class="dropdown-item" onclick="exportAll('xls');" href="javascript://">XLS</a></li>
+              <li><a class="dropdown-item" onclick="exportAll('sql');" href="javascript://">SQL</a></li>
+              <li><a class="dropdown-item" onclick="exportAll('json');" href="javascript://">JSON</a></li>
+            </ul>
+      </div>
+    </div>
+
+    <div class="col-auto">
+        <form method="GET" class="d-inline-flex">
+          <label class="m-2" for="from">From</label>
+          <input class="form-control" type="text" id="from" name="fromdate">
+        
+          <label class="m-2"  for="to">To</label>
+          <input class="form-control me-2" type="text" id="to" name="todate">
+
+          <input class="form-control me-2 tablesearch-input" name="q" type="search"  data-tablesearch-table="#data-table" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success me-1" type="submit">Search</button>
+          <button class="btn btn-outline-danger me-1" type="reset">R</button>
+          <button class="btn btn-outline-success" type="submit">All</button>
+        </form>
+    </div>
+  </div>
+</div>
+
+<script src="{% static 'js/tableExport_main.js'%}"></script>
+
+</script>
+
+    <script>
+
+      $(document).ready(function() {
+
+        var headers = $('#data-table thead th');
+
+        $(headers[5]).attr('data-tablesort-type', 'date');
+
+
+        $('table').not(".tablesort").addClass('tablesort');
+        // $('')
+
+      });
+
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+<!--End Navbar-->

@@ -1,0 +1,67 @@
+{% extends 'partials/base.html' %}
+{% block title %}Invoice Edit Page{% endblock %}
+{% block content %}
+    {% load crispy_forms_tags %}
+
+            <form method="POST">
+                <div class="row my-2">
+                     {% csrf_token %}
+                    <table class="table bg-white table-hover table-striped text-center">
+                        <thead class="bg-info">
+                            <tr class="text-white">
+                                <th>Invoice Number</th>
+                                <th>supplier Name</th>
+                                <th>Unit Name</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr> 
+                                <td>{{ form.invoiceNumber}}</td>
+                                <td>{{ form.supplierName}}</td>
+                                <td>{{ form.unit}}</td>
+                                <td>{{ form.status}}</td>
+                                <td>{{ form.date}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <table class="form-table table bg-white table-hover table-striped text-center">
+                        <thead class="bg-info">
+                            <tr class="text-white">
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Macaddress</th>
+                                <th>Warranty</th>
+                                <th>Product Type</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for form_data in formset %}
+                            <tr class="item">
+                                <td>{{ form_data.productName }}</td>
+                                <td>{{ form_data.quantity }}</td>
+                                <td>{{ form_data.unitprice }}</td>
+                                <td>{{ form_data.macaddress }}</td>
+                                <td>{{ form_data.warranty }}</td>
+                                <td>{{ form_data.category }}</td>
+                                <td><button type="button" class="btn btn-danger btn-sm remove-form-row"id="{{ formset.prefix }}">Delete</button></td>
+                            </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-sm btn-success add-form-row m-1" id="{{ formset.prefix }}">Add</button>
+                    {{ formset.management_form }}
+                <button class="btn btn-success btn-sm m-1" type="submit">Submit</button>
+            </div>
+        </form>
+{% load static %}
+<script type="text/javascript" src="{% static 'js/formset.js' %}"></script>
+<script src="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>
+{% endblock %}

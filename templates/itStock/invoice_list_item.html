@@ -1,0 +1,55 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %}Invoice Edit Page{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+{%include 'partials/searchBar.html'%}
+<script src="{% static 'js/jquery.fixedTableHeader.js'%}"></script>
+    <table id="data-table" class="text-capitalize table bg-white table-hover table-striped text-center example tablesearch-table">
+        <thead style="cursor: pointer" class="bg-info">
+            <tr class="text-white">
+                <th scope="col">No</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">W.</th>
+                <th scope="col">MAC Address</th>
+                <th scope="col">Q.</th>
+                <th scope="col">U.Price</th>
+                <th scope="col">Price</th>
+                <th scope="col">Date</th>
+                <th scope="col">Inv. SL</th>
+                <th scope="col">Fund. SL</th>
+                <th scope="col">Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for invoicedetail in invoicedetail %}
+            <tr>
+                <td scope="row">{{forloop.counter}}</td>
+                <td >{{ invoicedetail.productName }}</td>
+                <td>{{ invoicedetail.warranty }}</td>
+                <td >{{ invoicedetail.macaddress }}</td>
+                <td>{{ invoicedetail.quantity }}</td>
+                <td class="text-right">{{ invoicedetail.unitprice }}</td>
+                <td class="text-right">{{ invoicedetail.price }}</td>
+                <td class="text-nowrap">{{ invoicedetail.date }}</td>
+                <td class="text-nowrap"><a target="_blank" href="{% url 'itStock-invoice-view' invoicedetail.invoiceNumber %}"> {{ invoicedetail.invoiceNumber }}</a></td>
+            {% if invoicedetail.fundSerial %}
+                <td ><a target="_blank" href="{% url 'itStock-fund-pdf' invoicedetail.fundSerial %}"> {{ invoicedetail.fundSerial }}</a></td>
+            {% else %}
+            <td></td>
+            {% endif %}
+            {% if invoicedetail.addstock is False %}
+                <td class="text-nowrap"><a class="btn btn-warning btn-sm mr-2" href="{% url 'itStock-stock-add' invoicedetail.id %}">N</a></td>
+            {% else %}
+                <td><a class="btn  btn-info  btn-sm mr-2">Y</a></td>
+            {% endif %}
+            </tr>
+    {% endfor%}
+        </tbody>
+    </table>
+<script>
+    jQuery(($) => {
+        $(".example").fixedTableHeader();
+    })
+</script>
+{% endblock %}

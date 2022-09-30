@@ -1,0 +1,63 @@
+{% extends 'partials/base.html' %}
+{% block title %}Inventory{% endblock %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+{%include 'partials/searchBarStyle.html'%}
+<script src="{% static 'js/jquery.fixedTableHeader.js'%}"></script>
+<!--Table-->
+        <div class="row my-2">
+            <div class="col-md-4">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="text-uppercase fw-bold text-danger alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="card">
+                    <div class="card-header bg-info text-white text-uppercase fw-bold">
+                       ADD Buyer 
+                    </div>
+                    <div class="card-body mt-1 text-uppercase">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <input class="btn btn-info btn-block mt-2 text-uppercase" type="submit" value="ADD Buyer">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+            
+                <table id="data-table" class="text-capitalize table bg-white table-hover table-striped text-center example tablesearch-table">
+                    <thead class="bg-info text-white fw-bold">
+                        <tr>
+                            <th scope="col">Buyer Name</th>
+                            <th scope="col">Style Name</th>
+                            <th scope="col">Style SMV</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for StyleDATA in StyleDATA %}
+                        <tr>
+                            <td>{{ StyleDATA.buyer }}</td>
+                            <td>{{ StyleDATA.name }}</td>
+                            <td>{{ StyleDATA.StyleSMV }}</td>
+                            <td><a class="btn btn-info btn-sm float-right" href="{% url 'fslplan-style-edit' StyleDATA.id %}">Edit</a></td>
+                            <td><a class="btn btn-info btn-sm float-right" href="{% url 'fslplan-daysetup' %}">Dey Setup</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+<script>
+    jQuery(($) => {
+        $(".example").fixedTableHeader();
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'partials/base.html' %}
+{% block title %}Invoice Edit Page{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row my-4">
+    <div class="col-md-6 offset-md-3 p-3 bg-white">
+        <h3>Invoice Item ADD</h3>
+        <hr>
+        {{ invoiceNumber }}
+        <hr>
+        <form method ='post' enctype ="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <a class="btn btn-secondary" href="{% url 'itStock-invoice-view' invoiceItemDetail.invoiceNumber %}">Cancel</a>
+            <input class="btn btn-info" type="submit" value="Confirm">
+        </form>
+    </div>
+</div>
+{% endblock %}

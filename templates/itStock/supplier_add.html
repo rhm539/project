@@ -1,0 +1,91 @@
+{% extends 'partials/base.html' %}
+{% block title %}Supplier ADD Page{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <!--Table-->
+    <div class="container">
+        <div class="row my-4">
+            <div class="col-md-3">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="border bg-white p-3">
+                    <h4>Add Supplier</h4>
+                    <hr>
+                    <form method="POST">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                        <input class="btn btn-success btn-block mt-2" type="submit" value="Add Supplier">
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <table class="table bg-white">
+                    <thead class="bg-info">
+                        <tr class="text-white">
+                            <th scope="col">Sup. Name</th>
+                            <th scope="col">Contact Name</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Contact</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Activity</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for supplier in supplier %}
+                        <tr>
+                            <td>{{ supplier.supplierName }}</td>
+                            <td>{{ supplier.contactName }}</td>
+                            <td>{{ supplier.address }}</td>
+                            <td>{{ supplier.email }}</td>
+                            <td>{{ supplier.contactNumber }}</td>
+                            <td>{{ supplier.status }}</td>
+                            <td><a class="btn btn-info btn-sm" href="{% url 'itStock-supplier-edit' supplier.id %}">Edit</a></td>
+                            <td><a class="btn btn-danger btn-sm"href="{% url 'itStock-supplier-delete' supplier.id %}">Delete</a></td>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{%endblock%}

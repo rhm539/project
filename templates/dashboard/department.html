@@ -1,0 +1,51 @@
+{% extends 'partials/base.html' %}
+{% block title %}Department{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load crispy_forms_tags %}
+<!--Table-->
+     <div class="container">
+        <div class="row my-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-info text-white text-uppercase fw-bold">
+                       ADD Department
+                    </div>
+                    <div class="card-body mt-1 text-uppercase">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <input class="btn btn-info btn-block mt-2 text-uppercase" type="submit" value="ADD Department">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <table class="table bg-white text-uppercase">
+                    <thead class="bg-info text-white fw-bold">
+                        <tr>
+                            <th scope="col">Department ID</th>
+                            <th scope="col">Department</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for department in department %}
+                        <tr>
+
+                            <td>{{ department.id }}</td>
+                            <td>{{ department.dptName }}</td>
+                            {% if user.profile.department.id < 5 %}
+                                <td><a class="btn btn-info btn-sm float-right" href="{% url 'dashboard-department-update' department.id%}">Edit</a></td>
+                            {% endif %}
+
+                            
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{%endblock%}

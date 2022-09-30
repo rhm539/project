@@ -1,0 +1,78 @@
+{% extends 'partials/base.html'%}
+{%block title%} Order {%endblock%}
+{% load crispy_forms_tags %}
+{% block content %}
+        <!--Table-->
+        <div class="container">
+            <div class="row my-4">
+            <div class="col-md-4">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="border bg-white p-3">
+                    <h4>Add Request</h4>
+                    <hr>
+                    <form method="POST">
+                                {% csrf_token %}
+                                {{form|crispy}}
+                        <input class="btn btn-success btn-block mt-2" type="submit" value="Add Request">
+                    </form>
+                </div>
+            </div>
+                <div class="col-md-8">
+                    <table class="table bg-white">
+                        <thead class="bg-info">
+                            <tr class="text-white">
+                                <th scope="col">Product</th>
+                                <th scope="col">Deatail</th>
+                                <th scope="col">Quantity</th>
+                                <th class="text-nowrap" scope="col">Req. By</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Activity</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                                {% if order.staff.username ==  user.username or user.profile.department.id < 11 %}
+                                    <tr>
+                                        <td>{{ order.product.AGroupName}}</td>
+                                        <td>{{ order.product }}</td>
+                                        <td>{{ order.order_quantity }}</td>
+                                        <td class="text-uppercase">{{ order.staff.username }}</td>
+                                        <td class="text-nowrap">{{ order.date }}</td>
+                                    {% if order.OrStatus == 'NEW' %}
+                                        <td><a class="btn btn-info btn-sm mr-1"href="{% url 'dashboard-order-edit' order.id %}">EDIT</a></td>
+                                        <td><a class="btn btn-info btn-sm mr-1"href="{% url 'dashboard-order-update' order.id %}">SEND</a></td>
+                                       
+                                    {% endif %}
+                                    {% if order.OrStatus == 'SEND' %}
+                                        <td>{{ order.OrStatus }}</td>
+                                        <td>Please Wait</td>
+                                        {% if user.profile.department.id < 11 %}
+                                            <td><a class="btn btn-info btn-sm mr-1"href="{% url 'dashboard-order-update' order.id %}">DELIVER</a></td>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if order.OrStatus == 'DELIVER' %}
+                                        <td class="fw-bold text-info">{{ order.OrStatus }}</td>
+                                        <td></td>
+                                    {% endif %}
+                                </tr>
+                                {% endif %} 
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    
+        </div>
+    
+    
+    
+        <!--End Table-->
+{% endblock%}

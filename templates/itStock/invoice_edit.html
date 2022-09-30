@@ -1,0 +1,18 @@
+{% extends 'partials/base.html' %}
+{% block title %}Invoice Edit Page{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row my-4">
+    <div class="col-md-6 offset-md-3 p-3 bg-white">
+        <h3>Edit Item</h3>
+        <hr>
+        <form method ='post' enctype ="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <a class="btn btn-secondary m-1 mt-2" href="{% url 'itStock-invoice-list' %}">Cancel</a>
+            <input class="btn btn-info m-1 mt-2" type="submit" value="Confirm">
+        </form>
+    </div>
+</div>
+{% endblock %}

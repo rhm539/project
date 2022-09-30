@@ -1,0 +1,42 @@
+{% extends 'partials/base.html' %}
+{% block title %}Production Out Put Page{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+        <form method="POST">
+          {% csrf_token %}
+            <div class="text-uppercase mt-2">
+                <div class="row my-2 text-uppercase bg-primary bg-opacity-25 p-3">
+                    <div class="col">ID: {{SetupLineData.DayID}}</div>
+                    <div class="col">LINE: {{SetupLineData.LineNum}}</div>
+                    <div class="col">HOUR TERGET: {{SetupLineData.HourTerget}}</div>
+                    <div class="col">STYLE: {{SetupLineData.StyleName}}</div>
+                    <div class="col">DATE: {{SetupLineData.date}}</div>
+                  </div>
+                  <div class="row my-2">
+                    <div class="col">{{ form.H_8_9|as_crispy_field}}</div>
+                    <div class="col">{{ form.H_9_10|as_crispy_field}}</div>
+                    <div class="col">{{ form.H_10_11|as_crispy_field}}</div>
+                    <div class="col">{{ form.H_11_12|as_crispy_field}}</div>
+                    <div class="col">{{ form.H_12_13|as_crispy_field}}</div>
+                  </div>
+                  <div class="row my-2">
+                    <div class="col">{{ form.H_14_15|as_crispy_field}}</div>
+                    <div class="col">{{ form.H_15_16|as_crispy_field}}</div>
+                    <div class="col">{{ form.H_16_17|as_crispy_field}}</div>
+                    <div class="col">{{ form.H_17_18|as_crispy_field}}</div>
+                    <div class="col">{{ form.H_18_19|as_crispy_field}}</div>
+                  </div>
+                  <div class="row my-2">
+                    <div class="col">{{ form.H_19_20|as_crispy_field}}</div>
+                    <div class="col">{{ form.H_20_21|as_crispy_field}}</div>
+                    <div class="col">{{ form.H_21_22|as_crispy_field}}</div>
+                    <div class="col">{{ form.LineWIP|as_crispy_field}}</div>
+                    <div class="col">{{ form.DataLock|as_crispy_field}}</div>
+                  </div>
+                  <div class="row my-2">
+                    <div class="col text-end"><a class="btn btn-secondary mt-2" href="{% url 'fslplan-prod-output-show' %}">Cancel</a></div>
+                    <div class="col"><input class="btn btn-info mt-2" type="submit" value="CONFIRM"></div>
+                  </div>
+            </div>
+          </form>
+{% endblock %}

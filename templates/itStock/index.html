@@ -1,0 +1,11 @@
+{% extends 'partials/base.html'%}
+{%block title%}Welcome IT Stock page {%endblock%}
+{% block content %}
+    {% if user.is_authenticated and user.is_staff and user.is_superuser%}
+        {%include 'partials/itStocktopnav.html'%}
+
+   
+        
+    {%endif%}
+{% endblock %}
+   

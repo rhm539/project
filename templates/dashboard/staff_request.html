@@ -1,0 +1,65 @@
+{% extends 'partials/base.html' %}
+{% block title %}Fund Item Edit Page{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row my-4">
+{% load crispy_forms_tags %}
+<!--Table-->
+     <div class="container">
+        <div class="row my-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        Make Request to IT Department
+                    </div>
+                    <div class="card-body mt-1">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <input class="btn btn-info btn-block mt-2" type="submit" value="Make Request">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <table class="table bg-white">
+                    <thead class="bg-info">
+                        <tr class="text-white">
+                            <th scope="col">Product</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        {% if order.staff == user %}     
+                        <tr>
+                            <td>{{ order.product.name }}</td>
+                            <td>{{ order.product.category }}</td>
+                            <td>{{ order.order_quantity }}</td>
+                            <td>{{ order.OrStatus }}</td>
+                            <td>
+                                {% if order.OrStatus == 'SEND' %}
+                                <a class="btn btn-info btn-sm mr-2" href="{% url 'dashboard-orderUser-edit' order.id %}">Edit</a>
+                                <a class="btn btn-danger btn-sm ml-2" href="{% url 'dashboard-orderUser-delete' order.id %}">Delete</a>
+                                {% elif order.OrStatus == 'HOLD'%}
+                                    NOT ACCEPT
+                                {% elif order.OrStatus == 'REJECT'%}
+                                    DELETE SOON
+                                {% else%}
+                                    ON PROSESS
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+    <!--End Table-->
+        

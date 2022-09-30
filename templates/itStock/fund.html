@@ -1,0 +1,72 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %}Fund Page{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+{%include 'partials/searchBar.html'%}
+<script src="{% static 'js/jquery.fixedTableHeader.js'%}"></script>
+<!--Table-->
+                <table id="data-table" class="text-capitalize table bg-white table-hover table-striped text-center example tablesearch-table">
+                    <thead style="cursor: pointer" class="bg-info">
+                        <tr class="text-white">
+                            <th scope="col">No</th>
+                            <th scope="col">Fund Number</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Unit</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Create BY</th>
+                            <th scope="col">Status</th>
+                            <th colspan="4">Activity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fund in fund%}
+                        <tr scope="row" class="text-black text-center">
+                            <td>{{forloop.counter}}</td>
+                            <td>{{ fund.fundNumber }}</td>
+                            <td >{{ fund.fundName }}</td>
+                            {% if fund.unit == "BRL" %}<td class="text-danger fw-bold">{% else %}<td>{% endif %}{{ fund.unit }}</td>
+                            <td class="text-right">{{ fund.fundAmount }}</td>
+                            <td >{{ fund.date }}</td>
+                            <td >{{ fund.staff }}</td>
+                            <td >{{ fund.status }}</td>
+                            <td>
+                                {% if fund.status == 'NEW' or fund.status == 'SEND' %}
+                                        {% if fund.status == 'SEND' and request.user.profile.utype.utype == 'DptHead' %}
+                                            <a class="btn btn-secondary disabled btn-sm mr-2" href="#">Fixed</a>
+                                            <a class="btn btn-warning btn-sm mr-2" href="{% url 'itStock-fund-submit' fund.fundNumber%}">Submit to Dpt Audit</a>
+                                        {% elif fund.status == 'NEW'%}
+                                            <a class="btn btn-info btn-sm mr-2" href="{% url 'itStock-fund-show' fund.fundNumber%}">EDIT</a>
+                                            <a class="btn btn-warning btn-sm mr-2" href="{% url 'itStock-fund-submit' fund.fundNumber%}">Submit to Dpt Head</a>
+                                        {% endif %}    
+                                {% endif %}
+                                    
+                                {% if fund.status == 'ACCEPT' and request.user.profile.utype.utype == 'Audit'%}
+                                    <a class="btn btn-info btn-sm mr-2" href="{% url 'itStock-fund-show' fund.fundNumber%}">EDIT</a>
+                                    <a class="btn btn-warning btn-sm mr-2" href="{% url 'itStock-fund-submit' fund.fundNumber%}">Submit to Dpt ACC</a>
+                                    
+                                {% endif %}
+                                {% if fund.status == 'DELIVER' and request.user.profile.utype.utype == 'GMACC' %}
+                                    <a class="btn btn-info btn-sm mr-2" href="{% url 'itStock-fund-show' fund.fundNumber%}">EDIT</a>
+                                    <a class="btn btn-warning btn-sm mr-2" href="{% url 'itStock-fund-submit' fund.fundNumber%}">Submit to MD</a>
+                                    
+                                {% endif %}
+                                {% if fund.status == 'WAITING' and request.user.profile.utype.utype == 'MD' %}
+                                    <a class="btn btn-info btn-sm mr-2" href="{% url 'itStock-fund-show' fund.fundNumber%}">EDIT</a>
+                                    <a class="btn btn-warning btn-sm mr-2" href="{% url 'itStock-fund-submit' fund.fundNumber%}">APPROVED</a>
+                                {% endif %}
+                                <a class="btn btn-success btn-sm mr-2" target="_blank" href="{% url 'itStock-fund-view' fund.fundNumber%}">VIEW</a>
+                                <a class="btn btn-success btn-sm mr-2" target="_blank" href="{% url 'itStock-fund-pdf' fund.fundNumber%}">PDF</a>
+                              </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+<script>
+    jQuery(($) => {
+        $(".example").fixedTableHeader();
+    })
+</script>
+{% endblock %}
